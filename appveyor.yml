@@ -9,6 +9,9 @@ configuration:
   - ReleasePackage
 environment:
   matrix:
+    - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015 Win64"
+      MARIADB_VERSION: 10.3.12
+      MROONGA_PLATFORM: "winx64"
     - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015"
       MARIADB_VERSION: 10.1.38
       MROONGA_PLATFORM: "win32"
@@ -24,9 +27,6 @@ environment:
     - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015"
       MARIADB_VERSION: 10.3.12
       MROONGA_PLATFORM: "win32"
-    - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015 Win64"
-      MARIADB_VERSION: 10.3.12
-      MROONGA_PLATFORM: "winx64"
 
 matrix:
   exclude:
