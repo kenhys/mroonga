@@ -62,7 +62,7 @@ build_script:
   - if "%MROONGA_PLATFORM%" == "winx64" set MROONGA_BUILD_DIR=build-vc2015-zip-64
   - mkdir %MROONGA_BUILD_DIR%
   - cd %MROONGA_BUILD_DIR%
-  - cmake ..\source -G "%CMAKE_GENERATOR_NAME%" -DMRN_GROONGA_EMBED=OFF -DMRN_GROONGA_NORMALIZER_MYSQL_EMBED=OFF -DGRN_WITH_BUNDLED_LZ4=ON -DGRN_WITH_BUNDLED_MECAB=ON
+  - cmake ..\source -G "%CMAKE_GENERATOR_NAME%" -DMRN_GROONGA_EMBED=OFF -DMRN_GROONGA_NORMALIZER_MYSQL_EMBED=OFF -DGRN_WITH_BUNDLED_LZ4=ON -DGRN_WITH_BUNDLED_MECAB=ON > config.log
   - move .\storage\mroonga\vendor\groonga\include\groonga\version.h ..\source\storage\mroonga\vendor\groonga\include\
   - type config.log
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
