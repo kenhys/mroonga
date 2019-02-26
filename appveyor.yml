@@ -65,8 +65,8 @@ build_script:
   - cmake ..\source -G "%CMAKE_GENERATOR_NAME%" -DMRN_GROONGA_EMBED=OFF -DMRN_GROONGA_NORMALIZER_MYSQL_EMBED=OFF -DGRN_WITH_BUNDLED_LZ4=ON -DGRN_WITH_BUNDLED_MECAB=ON > config.log
   - move .\storage\mroonga\vendor\groonga\include\groonga\version.h ..\source\storage\mroonga\vendor\groonga\include\groonga\
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-  - cmake --build . --config RelWithDebInfo > build.log
-  - cmake --build . --config RelWithDebInfo --target package > zip.log
+  - cmake --build . --config RelWithDebInfo
+  - cmake --build . --config RelWithDebInfo --target package
   - move *.zip ..\
   - cd ..\
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -80,5 +80,3 @@ on_success:
   - 7z a mariadb-%MARIADB_VERSION%-with-%MROONGA_VERSION-%MROONGA_PLATFORM%.zip mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%
   - set ARTIFACT=work\mariadb-%MARIADB_VERSION%-with-mroonga-%MROONGA_VERSION%-%MROONGA_PLATFORM%.zip
   - ps: Push-AppveyorArtifact $Env:ARTIFACT
-on_failure:
-  - type build.log
