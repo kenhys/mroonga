@@ -57,6 +57,7 @@ build_script:
   - pacman -Sy --noconfirm bison
   - cmake --version
   - bison --version
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cd mariadb-%MARIADB_VERSION%
   - if "%MROONGA_PLATFORM%" == "win32" call .\mariadb-%MARIADB_VERSION%\storage\mroonga\packages\windows\build-vc2015-zip-32.bat
   - if "%MROONGA_PLATFORM%" == "winx64" call .\mariadb-%MARIADB_VERSION%\storage\mroonga\packages\windows\build-vc2015-zip-64.bat
