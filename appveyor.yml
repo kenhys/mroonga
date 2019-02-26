@@ -89,6 +89,7 @@ build_script:
       move *.zip ..\
       cd ..
     )
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - 7z x mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%.zip
   - cd ..\
   - netsh advfirewall firewall add rule name="mariadb" dir=in action=allow protocol=TCP localport=3306 enable=yes profile=any
