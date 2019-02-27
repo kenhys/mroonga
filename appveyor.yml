@@ -6,6 +6,9 @@ version: "{build}"
 clone_depth: 10
 environment:
   matrix:
+    - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015 Win64"
+      MARIADB_VERSION: 10.3.12
+      MROONGA_PLATFORM: "winx64"
     - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015"
       MARIADB_VERSION: 10.1.38
       MROONGA_PLATFORM: "win32"
@@ -21,9 +24,6 @@ environment:
     - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015"
       MARIADB_VERSION: 10.3.12
       MROONGA_PLATFORM: "win32"
-    - CMAKE_GENERATOR_NAME: "Visual Studio 14 2015 Win64"
-      MARIADB_VERSION: 10.3.12
-      MROONGA_PLATFORM: "winx64"
 
 install:
   - cd ..
@@ -39,8 +39,8 @@ install:
   - ps: Get-Content ..\groonga\base_version | ForEach-Object { $env:GROONGA_VERSION = $_ }
   - rmdir /S /Q ..\groonga\test\
   - cd ..\groonga\vendor
-  - c:\Ruby26-x64\bin\ruby -v download_lz4.rb
-  - c:\Ruby26-x64\bin\ruby -v download_mecab.rb
+  # - c:\Ruby26-x64\bin\ruby -v download_lz4.rb
+  # - c:\Ruby26-x64\bin\ruby -v download_mecab.rb
   - cd ..\..\mariadb-%MARIADB_VERSION%
   - mkdir storage\mroonga\vendor
   - move ..\groonga storage\mroonga\vendor\groonga
@@ -52,16 +52,17 @@ build_script:
   - set MSYSTEM=MINGW64
   - pacman -Sy --noconfirm bison
   - move mariadb-%MARIADB_VERSION% build
-  - cd build
-  - cmake . -G "%CMAKE_GENERATOR_NAME%"
-      -DMRN_GROONGA_EMBED=OFF
-      -DMRN_GROONGA_NORMALIZER_MYSQL_EMBED=OFF
-      -DGRN_WITH_BUNDLED_LZ4=ON
-      -DGRN_WITH_BUNDLED_MECAB=ON
-  - cmake --build . --config RelWithDebInfo
-  - cmake --build . --config RelWithDebInfo --target package
-  - move *.zip ..\
-  - cd ..\
+  # - cd build
+  # - cmake . -G "%CMAKE_GENERATOR_NAME%"
+  #     -DMRN_GROONGA_EMBED=OFF
+  #     -DMRN_GROONGA_NORMALIZER_MYSQL_EMBED=OFF
+  #     -DGRN_WITH_BUNDLED_LZ4=ON
+  #     -DGRN_WITH_BUNDLED_MECAB=ON
+  # - cmake --build . --config RelWithDebInfo
+  # - cmake --build . --config RelWithDebInfo --target package
+  # - move *.zip ..\
+  # - cd ..\
+  - appveyor DownloadFile https://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip
   - 7z x mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%.zip
   - netsh advfirewall firewall add rule
       name="mariadb"
