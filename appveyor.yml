@@ -59,8 +59,8 @@ build_script:
       -DMRN_GROONGA_NORMALIZER_MYSQL_EMBED=OFF
       -DGRN_WITH_BUNDLED_LZ4=ON
       -DGRN_WITH_BUNDLED_MECAB=ON
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmake --build . --config RelWithDebInfo
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmake --build . --config RelWithDebInfo --target package
   - move *.zip ..\
   - cd ..\
