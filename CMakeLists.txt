@@ -479,6 +479,7 @@ if(MRN_BUNDLED)
 else()
   set(MRN_DATA_DIR "share/${PROJECT_NAME}")
 endif()
+execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "environment")
 install(FILES
   "${PROJECT_SOURCE_DIR}/AUTHORS"
   "${PROJECT_SOURCE_DIR}/COPYING"
