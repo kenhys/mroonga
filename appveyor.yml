@@ -61,6 +61,7 @@ build_script:
       -DGRN_WITH_BUNDLED_LZ4=ON
       -DGRN_WITH_BUNDLED_MECAB=ON
       -DGRN_WITH_BUNDLED_MESSAGE_PACK=ON
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target package
   - move *.zip ..\
