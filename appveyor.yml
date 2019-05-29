@@ -48,10 +48,10 @@ install:
       del groonga-latest.zip &&
       move groonga-* ..\groonga
     )
-  - cd %APPVEYOR_BUILD_FOLDER%\groonga
+  - cd %APPVEYOR_BUILD_FOLDER%\..\groonga
   - curl -O http://packages.groonga.org/tmp/add-a-missing-cast.patch
   - patch -p1 < add-a-missing-cast.patch
-  - cd %APPVEYOR_BUILD_FOLDER%\mariadb-%MARIADB_VERSION%
+  - cd %APPVEYOR_BUILD_FOLDER%\..\mariadb-%MARIADB_VERSION%
   - rmdir /S /Q ..\groonga\test\
   - cd ..\groonga\vendor
   - ruby download_lz4.rb
