@@ -396,6 +396,11 @@ else()
     OUTPUT_NAME "ha_mroonga")
 
   install(TARGETS mroonga DESTINATION "${MYSQL_PLUGIN_DIR}")
+  if(MSVC AND CMAKE_VERSION VERSION_GREATER "3.1")
+    install(FILES $<TARGET_PDB_FILE:ha_mroonga>
+      DESTINATION "${MYSQL_PLUGIN_DIR}"
+      OPTIONAL)
+  endif()
 endif()
 
 option(MRN_BUILD_FOR_EMBEDDED_SERVER

@@ -83,6 +83,7 @@ build_script:
       -DGRN_WITH_MRUBY=ON
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target package
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - move *.zip ..\
   - cd ..\
   - 7z x mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%.zip
@@ -97,9 +98,9 @@ build_script:
   - ps: .\source\storage\mroonga\packages\windows\install-mroonga.ps1
       -mariadbVersion $env:MARIADB_VERSION
       -platform $env:MROONGA_PLATFORM
-  - if not exist mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%\lib\plugin\ha_mroonga.pdb (
-      copy mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%\symbols\ha_mroonga.pdb mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%\lib\plugin\
-    )
+#  - if not exist mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%\lib\plugin\ha_mroonga.pdb (
+#      copy mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%\symbols\ha_mroonga.pdb mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%\lib\plugin\
+#    )
 
 test: off
 
