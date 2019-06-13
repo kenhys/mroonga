@@ -331,7 +331,7 @@ if(MRN_BUNDLED)
     return()
   endif()
   if(MSVC AND CMAKE_VERSION VERSION_GREATER "3.1")
-    install(FILES $<TARGET_PDB_FILE:ha_mroonga>
+    install(FILES $<TARGET_PDB_FILE:mroonga>
       DESTINATION "${MYSQL_PLUGIN_DIR}"
       OPTIONAL)
   endif()
