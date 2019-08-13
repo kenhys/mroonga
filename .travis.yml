@@ -6,11 +6,11 @@ language: cpp
 matrix:
   include:
     - env:
+        - MYSQL_VERSION=mysql-8.0
+    - env:
         - MYSQL_VERSION=mysql-system
     - env:
         - MYSQL_VERSION=mysql-5.7
-    - env:
-        - MYSQL_VERSION=mysql-8.0
     - env:
         - MYSQL_VERSION=mariadb-10.0.38
         - MROONGA_BUNDLED=yes
