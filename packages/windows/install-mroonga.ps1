@@ -9,7 +9,7 @@ function Wait-UntilRunning($cmdName) {
     Start-Sleep -s 5
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Write-Output "Wait-UntilRunning"
-  } while (!$Running)
+  } while (!Running -or $Running -and $Running.Age.TotalSeconds -lt 10)
 }
 
 function Wait-UntilTerminate($cmdName) {
@@ -18,7 +18,7 @@ function Wait-UntilTerminate($cmdName) {
     Start-Sleep -s 5
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Write-Output "Wait-UntilTerminate"
-  } while ($Running)
+  } while ($Running -and $Running.Age.TotalSeconds -lt 10)
 }
 
 function Install-Mroonga($mariadbVer, $arch, $installSqlDir) {
