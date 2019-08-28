@@ -6,16 +6,16 @@ Param(
 function Wait-UntilRunning($cmdName) {
   do
   {
+    Start-Sleep -s 5
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    Start-Sleep -m 500
   } while (!$Running)
 }
 
 function Wait-UntilTerminate($cmdName) {
   do
   {
+    Start-Sleep -s 5
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    Start-Sleep -m 500
   } while ($Running)
 }
 
