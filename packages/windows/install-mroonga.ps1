@@ -8,6 +8,7 @@ function Wait-UntilRunning($cmdName) {
   {
     Start-Sleep -s 5
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
+    Write-Output "Wait-UntilRunning"
   } while (!$Running)
 }
 
@@ -16,6 +17,7 @@ function Wait-UntilTerminate($cmdName) {
   {
     Start-Sleep -s 5
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
+    Write-Output "Wait-UntilTerminate"
   } while ($Running)
 }
 
