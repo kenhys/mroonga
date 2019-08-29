@@ -5,6 +5,7 @@ Param(
 
 function Wait-UntilRunning($cmdName) {
   $Waiting = $TRUE
+  $Count = 1
   do
   {
     Start-Sleep -s 1
@@ -18,17 +19,22 @@ function Wait-UntilRunning($cmdName) {
         Write-Output("wait to run {0} in 10 seconds" -f $cmdName)
       }
     } else {
-      $Waiting = $FALSE
+      Write-Output("failed to detect {0} process" -f $cmdName)
+      $Count = $Count + 1
+      if ($Count -gt 10) {
+        $Waiting = $FALSE
+      }
     }
   } while ($Waiting)
 }
 
 function Wait-UntilTerminate($cmdName) {
   $Waiting = $TRUE
+  $Count = 1
   do
   {
+    Start-Sleep -s 1
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    Start-Sleep -m 500
     if ($Running) {
       $Elapsed = ($(Get-Date) - $Running.StartTime).TotalSeconds
       if ($Elapsed -lt 10) {
@@ -38,8 +44,11 @@ function Wait-UntilTerminate($cmdName) {
         Write-Output("wait to terminate {0} in 10 seconds" -f $cmdName)
       }
     } else {
-      Write-Output("{0} was terminated" -f $cmdName)
-      $Waiting = $FALSE
+      $Count = $Count + 1
+      Write-Output("{0} may be terminated" -f $cmdName)
+      if ($Count -gt 5) {
+        $Waiting = $FALSE
+      }
     }
   } while ($Waiting)
 }
@@ -49,12 +58,12 @@ function Install-Mroonga($mariadbVer, $arch, $installSqlDir) {
   cd "mariadb-$mariadbVer-$arch"
   Write-Output("Start mysqld.exe")
   Start-Process .\bin\mysqld.exe
-  Start-Sleep -s 10
+  Wait-UntilRunning mysqld
   Write-Output("Execute install.sql")
   Get-Content "$installSqlDir\install.sql" | .\bin\mysql.exe -uroot
   Write-Output("Shutdown mysqld.exe")
   Start-Process .\bin\mysqladmin.exe -ArgumentList "-uroot shutdown"
-  Start-Sleep -s 10
+  Wait-UntilTerminate mysqld
   cd ..
   Write-Output("Finished to install Mroonga")
 }
