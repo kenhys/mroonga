@@ -402,6 +402,11 @@ typedef uint mrn_alter_table_flags;
 #  define MRN_HANDLER_HAVE_GET_FOREIGN_DUP_KEY
 #endif
 
+#if defined(MRN_MARIADB_P) && \
+   ((MYSQL_VERSION_ID >= 100320 && MYSQL_VERSION_ID < 100400) || (MYSQL_VERSION_ID >= 100410))
+#  define MRN_HANDLER_OVERRIDE_RESTORE_AUTO_INCREMENT
+#endif
+
 #if defined(HAVE_PSI_INTERFACE) &&                      \
   (MYSQL_VERSION_ID < 80002 || defined(MRN_MARIADB_P))
 #  define MRN_HAVE_PSI_SERVER
@@ -834,8 +839,13 @@ public:
   void set_next_insert_id(ulonglong id);
   void get_auto_increment(ulonglong offset, ulonglong increment, ulonglong nb_desired_values,
                           ulonglong *first_value, ulonglong *nb_reserved_values);
+#ifdef MRN_HANDLER_OVERRIDE_RESTORE_AUTO_INCREMENT
+  void restore_auto_increment(ulonglong prev_insert_id) mrn_override;
+  void release_auto_increment() mrn_override;
+#else
   void restore_auto_increment(ulonglong prev_insert_id);
   void release_auto_increment();
+#endif
   int check_for_upgrade(HA_CHECK_OPT *check_opt);
 #ifdef MRN_HANDLER_HAVE_RESET_AUTO_INCREMENT
   int reset_auto_increment(ulonglong value);
